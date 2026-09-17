@@ -1,13 +1,25 @@
-// Authentication foundation for Bigex Cars.
-// Production authentication must verify identity server-side with an auth provider.
+// Bigex Cars authentication helpers.
+// The frontend demo session is retained for local development only.
+// Production admin privileges must come from the authenticated backend profile.
 const ADMIN_EMAIL = 'igetobiloluwa36@gmail.com';
 
-export function roleForEmail(email) {
-  return String(email || '').trim().toLowerCase() === ADMIN_EMAIL ? 'admin' : 'buyer';
+export function normalizeEmail(email) {
+  return String(email || '').trim().toLowerCase();
 }
 
-export function createSession(user) {
-  const session = { ...user, role: roleForEmail(user.email), signedInAt: new Date().toISOString() };
+export function roleForEmail(email) {
+  return normalizeEmail(email) === ADMIN_EMAIL ? 'admin' : 'buyer';
+}
+
+export function createDemoSession(user) {
+  const email = normalizeEmail(user?.email);
+  const session = {
+    ...user,
+    email,
+    role: roleForEmail(email),
+    signedInAt: new Date().toISOString(),
+    demo: true
+  };
   localStorage.setItem('bigexSession', JSON.stringify(session));
   return session;
 }
@@ -16,9 +28,13 @@ export function getSession() {
   try { return JSON.parse(localStorage.getItem('bigexSession')) || null; } catch { return null; }
 }
 
-export function signOut() { localStorage.removeItem('bigexSession'); }
+export function signOut() {
+  localStorage.removeItem('bigexSession');
+}
 
 export function requireAdmin() {
   const session = getSession();
-  return !!session && session.role === 'admin' && session.email.toLowerCase() === ADMIN_EMAIL;
+  return Boolean(session?.demo && session.role === 'admin' && normalizeEmail(session.email) === ADMIN_EMAIL);
 }
+
+export { ADMIN_EMAIL };
