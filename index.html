@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Bigex Cars — a futuristic way to discover your next car." />
+  <title>Bigex Cars — Drive Different</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="nav container">
+    <a class="brand" href="#"><span>BIGEX</span><b>CARS</b></a>
+    <nav>
+      <a href="#explore">Explore</a>
+      <a href="#compare">Compare</a>
+      <a href="#sell">Sell</a>
+    </nav>
+    <button class="ghost-btn" id="loginBtn">Sign in</button>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="pulse"></span> THE NEXT-GEN CAR MARKETPLACE</p>
+        <h1>Find a car that feels <em>ahead.</em></h1>
+        <p class="hero-text">Discover, compare and shortlist cars without the usual marketplace clutter.</p>
+        <div class="search-box">
+          <span class="search-icon">⌕</span>
+          <input id="heroSearch" type="search" placeholder="Search BMW, Lexus, Toyota..." />
+          <button id="searchBtn">Search</button>
+        </div>
+        <div class="quick-tags">
+          <button data-search="Toyota">Toyota</button>
+          <button data-search="Lexus">Lexus</button>
+          <button data-search="BMW">BMW</button>
+          <button data-search="Mercedes">Mercedes</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="orb orb-one"></div><div class="orb orb-two"></div>
+        <div class="car-card">
+          <div class="car-top"><span>FEATURED // 001</span><span>● LIVE</span></div>
+          <div class="car-image"><div class="car-silhouette">▰</div></div>
+          <div class="car-info">
+            <div><p>2024</p><h2>BMW M4 Competition</h2></div>
+            <strong>₦95.0M</strong>
+          </div>
+          <div class="specs"><span>503 HP</span><span>3.9s 0–100</span><span>Automatic</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats container">
+      <div><strong>01</strong><span>Discover</span></div><div><strong>02</strong><span>Compare</span></div><div><strong>03</strong><span>Connect</span></div><div><strong>∞</strong><span>Drive</span></div>
+    </section>
+
+    <section class="section container" id="explore">
+      <div class="section-head"><div><p class="eyebrow">CURATED FOR YOU</p><h2>Trending machines</h2></div><button class="text-btn" id="viewAll">View all ↗</button></div>
+      <div class="filters"><button class="filter active" data-filter="all">All</button><button class="filter" data-filter="SUV">SUV</button><button class="filter" data-filter="Sedan">Sedan</button><button class="filter" data-filter="Coupe">Coupe</button><button class="filter" data-filter="Electric">Electric</button></div>
+      <div class="car-grid" id="carGrid"></div>
+    </section>
+
+    <section class="ai-panel container">
+      <div><p class="eyebrow">BIGEX INTELLIGENCE</p><h2>Tell us what you want.<br /><span>We'll narrow it down.</span></h2><p>Try: “A reliable SUV under ₦30m for Lagos.”</p></div>
+      <div class="ai-chat"><div class="ai-message">Hi. What kind of car are you looking for?</div><div class="ai-input"><input id="aiInput" placeholder="Describe your ideal car..." /><button id="aiBtn">→</button></div><small id="aiReply"></small></div>
+    </section>
+
+    <section class="compare-section container" id="compare">
+      <div class="section-head"><div><p class="eyebrow">SIDE BY SIDE</p><h2>Compare without guessing.</h2></div></div>
+      <div class="compare-box"><div><span>01</span><h3>Select cars</h3><p>Add up to four cars from the marketplace.</p></div><div><span>02</span><h3>See the difference</h3><p>Price, power, mileage and key specs in one view.</p></div><div><span>03</span><h3>Make your move</h3><p>Save a shortlist or connect with a seller.</p></div></div>
+    </section>
+
+    <section class="sell container" id="sell"><div><p class="eyebrow">FOR SELLERS</p><h2>Put your car in front of serious buyers.</h2><p>List a vehicle, add its details and let Bigex Cars handle the discovery experience.</p></div><button class="primary-btn" id="sellBtn">List a car ↗</button></section>
+  </main>
+
+  <footer class="footer container"><div class="brand"><span>BIGEX</span><b>CARS</b></div><p>Built for the next drive.</p><small>© 2026 Bigex Cars</small></footer>
+  <div class="toast" id="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>
