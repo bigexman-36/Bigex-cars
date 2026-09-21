@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Sign in securely to Bigex Cars.">
+<title>Sign in — Bigex Cars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.auth-page{min-height:calc(100vh - 82px);display:grid;place-items:center;padding:55px 0}
+.auth-card{width:min(100%,470px);border:1px solid var(--line);border-radius:25px;background:linear-gradient(145deg,rgba(20,27,37,.96),rgba(8,11,16,.98));padding:38px;box-shadow:0 30px 90px rgba(0,0,0,.45)}
+.auth-mark{width:52px;height:52px;display:grid;place-items:center;border:1px solid rgba(184,255,53,.35);border-radius:15px;color:var(--accent);font:700 20px 'Space Grotesk';margin-bottom:25px}
+.auth-card h1{font:700 42px/1 'Space Grotesk';letter-spacing:-2px;margin:0 0 12px}
+.auth-card>p{color:var(--muted);line-height:1.6;font-size:14px;margin:0 0 28px}
+.auth-label{display:block;color:#b8c1cd;font-size:12px;margin-bottom:8px}
+.auth-input{width:100%;box-sizing:border-box;background:#080c12;border:1px solid var(--line);border-radius:12px;padding:15px;color:white;outline:0;font:inherit}
+.auth-input:focus{border-color:rgba(184,255,53,.6)}
+.auth-submit{width:100%;margin-top:14px;border:0;background:var(--accent);color:#07090d;font-weight:800;padding:15px;border-radius:11px;cursor:pointer}
+.auth-submit:disabled{opacity:.55;cursor:wait}
+.auth-status{min-height:22px;margin:16px 0 0;font-size:13px;line-height:1.5}
+.auth-status.ok{color:var(--accent)}.auth-status.error{color:#ff9a9a}
+.auth-back{display:block;text-align:center;margin-top:22px;color:#8d98a8;text-decoration:none;font-size:12px}
+.auth-back:hover{color:white}
+.auth-note{border-top:1px solid var(--line);margin-top:24px;padding-top:20px;color:#687484;font-size:11px;line-height:1.6}
+@media(max-width:520px){.auth-card{padding:28px 22px}.auth-card h1{font-size:36px}}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<header class="nav container">
+<a class="brand" href="index.html"><span>BIGEX</span><b>CARS</b></a>
+<a class="ghost-btn" href="index.html">Back</a>
+</header>
+<main class="container auth-page">
+<section class="auth-card">
+<div class="auth-mark">B</div>
+<p class="eyebrow">BIGEX CARS / SECURE ACCESS</p>
+<h1>Welcome back.</h1>
+<p>Sign in with your email. We'll send a secure one-time link — no password to remember.</p>
+<form id="loginForm">
+<label class="auth-label" for="email">EMAIL ADDRESS</label>
+<input class="auth-input" id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+<button class="auth-submit" id="submitBtn" type="submit">Send secure sign-in link ↗</button>
+</form>
+<p id="status" class="auth-status" aria-live="polite"></p>
+<a class="auth-back" href="index.html">← Return to marketplace</a>
+<div class="auth-note">Your sign-in is handled by Supabase authentication. Bigex Cars never needs to store your password.</div>
+</section>
+</main>
+<script type="module" src="login.js"></script>
+</body>
+</html>
