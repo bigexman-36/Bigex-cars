@@ -1,1 +1,21 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bigex Cars — Admin</title><style>body{margin:0;background:#07090d;color:#f4f7fb;font:15px Inter,system-ui;padding:40px}.wrap{max-width:1000px;margin:auto}.card{border:1px solid #252d38;background:#0d1118;border-radius:20px;padding:28px;margin:20px 0}.accent{color:#b8ff35}button{background:#b8ff35;border:0;padding:12px 18px;border-radius:10px;font-weight:800;cursor:pointer}</style></head><body><div class="wrap"><p class="accent">BIGEX CARS / ADMIN</p><h1>Control Center</h1><div id="status" class="card">Checking administrator session…</div><div class="card"><h2>Website controls</h2><p>Manage vehicle listings, users, seller verification, featured cars, reports and marketplace settings from this dashboard.</p><button onclick="location.href='index.html'">Back to marketplace</button></div></div><script>const ADMIN='igetobiloluwa36@gmail.com';let s=null;try{s=JSON.parse(localStorage.getItem('bigexSession'))}catch{}const ok=s&&String(s.email).toLowerCase()===ADMIN&&s.role==='admin';document.getElementById('status').innerHTML=ok?'<strong class="accent">Administrator authenticated.</strong><p>Signed in as the designated Bigex Cars administrator.</p>':'<strong>Admin access required.</strong><p>Sign in with the designated administrator account to continue.</p>';</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bigex Cars — Admin</title>
+<style>
+body{margin:0;background:#07090d;color:#f4f7fb;font:15px Inter,system-ui}.wrap{max-width:1100px;margin:auto;padding:28px 18px}
+.card{border:1px solid #252d38;background:#0d1118;border-radius:18px;padding:20px;margin:16px 0}
+.accent{color:#b8ff35}button{border:0;padding:10px 14px;border-radius:10px;font-weight:800;cursor:pointer;margin:4px}
+.approve{background:#b8ff35}.reject{background:#ff667a;color:#fff}.ghost{background:#1a222d;color:#fff}.muted{color:#8d98a8}
+.list{display:grid;gap:12px}.row{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;border:1px solid #252d38;padding:16px;border-radius:14px}
+</style>
+</head>
+<body><div class="wrap">
+<p class="accent">BIGEX CARS / ADMIN</p><h1>Control Center</h1>
+<div id="status" class="card"></div>
+<div class="card"><h2>Pending listings</h2><p class="muted">Local moderation is available now. Cloud-wide moderation will activate after Supabase is configured.</p><div id="pending" class="list"></div></div>
+<div class="card"><h2>Approved listings</h2><div id="approved" class="list"></div></div>
+<button class="ghost" onclick="location.href='index.html'">← Marketplace</button>
+<button class="ghost" onclick="localStorage.removeItem('bigexSession');location.href='index.html'">Sign out</button>
+</div><script src="admin.js"></script></body></html>
