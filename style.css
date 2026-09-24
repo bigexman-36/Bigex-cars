@@ -123,8 +123,16 @@
 .ai-recommendation strong{font:600 12px 'Space Grotesk';overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ai-recommendation span{font-size:9px;color:var(--muted);white-space:nowrap}
 .ai-recommendation::after{content:'↗';color:var(--accent);font-size:13px}
-.ai-recommendation{font-size:0}
-.ai-recommendation strong,.ai-recommendation span{font-size:inherit}
 .listing.ai-highlight{border-color:var(--accent);box-shadow:0 0 0 3px rgba(184,255,53,.12),0 20px 60px rgba(184,255,53,.12);transform:translateY(-5px)}
 .compare-modal{pointer-events:none}
 .compare-modal.open{pointer-events:auto}
+
+/* BIGEX INTELLIGENCE — conversational UI */
+.ai-answer{color:#cbd3dd;font-size:12px;line-height:1.65;white-space:pre-wrap}
+.ai-thinking{color:var(--muted)}
+.ai-recommendation{grid-template-columns:minmax(0,1fr) auto;gap:3px 10px}
+.ai-recommendation strong{font-size:12px}
+.ai-recommendation span{font-size:9px}
+.ai-recommendation small{grid-column:1/-1;color:#718092;font-size:9px;line-height:1.4}
+.ai-recommendation::after{grid-column:2;grid-row:1;color:var(--accent);font-size:13px}
+.ai-recommendation:disabled{opacity:.55;cursor:wait}
