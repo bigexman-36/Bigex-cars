@@ -11,6 +11,11 @@ let activeFilter='all';
 let query='';
 let cloudCars=[];
 const favorites=new Set(JSON.parse(localStorage.getItem('bigexFavorites')||'[]'));
+const IMAGE_FALLBACKS={
+  'Toyota Land Cruiser':'https://commons.wikimedia.org/wiki/Special:FilePath/2023_Toyota_Land_Cruiser_300_3.4_VX_V6_in_Precious_White_Pearl%2C_06-12-2024.jpg',
+  'BMW M4 Competition':'https://commons.wikimedia.org/wiki/Special:FilePath/2024_BMW_M4_%28G82%29_Competition_IMG_9370.jpg'
+};
+const imageFallbackFor=name=>IMAGE_FALLBACKS[String(name||'').trim()]||'';
 const compare=new Set();
 
 function esc(value){
@@ -24,7 +29,7 @@ function normalizeCloud(c){
     spec:(c.fuel||'')+' • '+(c.transmission||'Automatic'),
     mileage:Number(c.mileage||0).toLocaleString()+' km',
     symbol:'◇',
-    image:c.image_url||''
+    image:imageFallbackFor(c.name)||c.image_url||''
   };
 }
 
@@ -85,7 +90,7 @@ function render(){
     return '<article class="listing" data-id="'+esc(c.id)+'" role="link" tabindex="0" aria-label="View '+esc(c.name)+'">'+
       '<div class="listing-img">'+
         '<span class="listing-badge">APPROVED</span>'+
-        (c.image?'<img src="'+esc(c.image)+'" alt="'+esc(c.name)+'" loading="lazy" referrerpolicy="no-referrer">':'<span aria-hidden="true">'+esc(c.symbol)+'</span>')+
+        (c.image?'<img src="'+esc(c.image)+'" alt="'+esc(c.name)+'" loading="lazy" referrerpolicy="no-referrer" data-fallback="'+esc(imageFallbackFor(c.name))+'">':'<span aria-hidden="true">'+esc(c.symbol)+'</span>')+
       '</div>'+
       '<div class="listing-body">'+
         '<div class="listing-meta"><span>'+esc(c.year)+' • '+esc(c.type)+'</span><span class="listing-location">'+esc(c.location)+'</span></div>'+
@@ -100,6 +105,17 @@ function render(){
       '</div>'+
     '</article>';
   }).join('');
+
+  document.querySelectorAll('.listing-img img[data-fallback]').forEach(img=>{
+    img.addEventListener('error',()=>{
+      const fallback=img.dataset.fallback||'';
+      if(fallback && img.src!==fallback){
+        img.src=fallback;
+        return;
+      }
+      img.style.display='none';
+    },{once:false});
+  });
 
   document.querySelectorAll('[data-heart]').forEach(button=>{
     button.onclick=event=>{
