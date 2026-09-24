@@ -55,7 +55,11 @@ function updateCompareBar(){
   }
   bar.innerHTML='<div><strong>'+selected.length+' car'+(selected.length>1?'s':'')+' selected</strong><span>'+selected.map(c=>esc(c.name)).join(' · ')+'</span></div><div class="compare-bar-actions"><button class="compare-clear" type="button" id="compareClear">Clear</button><button type="button" id="compareAction">Compare ↗</button></div>';
   bar.classList.add('show');
-  document.getElementById('compareAction').onclick=openComparePanel;
+  document.getElementById('compareAction').onclick=(event)=>{
+  event.preventDefault();
+  event.stopPropagation();
+  openComparePanel();
+};
   document.getElementById('compareClear').onclick=()=>{
     compare.clear();
     render();
@@ -148,8 +152,16 @@ function openComparePanel(){
     modal.className='compare-modal';
     modal.innerHTML='<div class="compare-dialog" role="dialog" aria-modal="true" aria-labelledby="compareTitle"><div class="compare-dialog-head"><div><p class="eyebrow">SIDE BY SIDE</p><h2 id="compareTitle">Compare cars</h2></div><button class="compare-close" type="button" aria-label="Close comparison">×</button></div><div class="compare-table-wrap"><table class="compare-table"><thead><tr><th>Specification</th></tr></thead><tbody></tbody></table></div></div>';
     document.body.appendChild(modal);
-    modal.querySelector('.compare-close').onclick=()=>modal.classList.remove('open');
-    modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
+    modal.querySelector('.compare-close').onclick=()=>{
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+    };
+    modal.addEventListener('click',e=>{
+      if(e.target===modal){
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden','true');
+      }
+    });
   }
 
   const table=modal.querySelector('.compare-table');
@@ -172,7 +184,9 @@ function openComparePanel(){
     if(compare.size<2) modal.classList.remove('open');
     else openComparePanel();
   });
+  modal.setAttribute('aria-hidden','false');
   modal.classList.add('open');
+  modal.querySelector('.compare-close')?.focus();
 }
 function resetMarketplace(){
   activeFilter='all';
@@ -256,18 +270,40 @@ document.getElementById('aiBtn').onclick=()=>{
   const reply=document.getElementById('aiReply');
   const text=input.value.trim().toLowerCase();
   if(!text){
-    reply.textContent='Try a body type, location, fuel preference, or brand.';
+    reply.innerHTML='<span>Try a body type, location, fuel preference, or brand.</span>';
     return;
   }
+
   const matches=cloudCars.filter(c=>
     text.includes(String(c.type||'').toLowerCase())||
     text.includes(String(c.fuel||'').toLowerCase())||
     text.includes(String(c.location||'').toLowerCase())||
+    text.includes(String(c.name||'').toLowerCase())||
     text.includes(String(c.name||'').split(' ')[0].toLowerCase())
-  );
-  reply.textContent=matches.length
-    ?'Possible matches: '+matches.slice(0,4).map(c=>c.name).join(', ')+'.'
-    :'Try mentioning SUV, Sedan, Electric, Lagos, Toyota, BMW, or another preference.';
+  ).slice(0,4);
+
+  if(!matches.length){
+    reply.innerHTML='<span>Try mentioning SUV, Sedan, Electric, Lagos, Toyota, BMW, or another preference.</span>';
+    return;
+  }
+
+  reply.innerHTML='<span>Possible matches — tap one to view it:</span><div class="ai-recommendations">'+
+    matches.map(c=>'<button type="button" class="ai-recommendation" data-ai-car="'+esc(c.id)+'"><strong>'+esc(c.name)+'</strong><span>'+esc(c.price)+' · '+esc(c.location)+'</span>↗</button>').join('')+
+    '</div>';
+
+  reply.querySelectorAll('[data-ai-car]').forEach(button=>{
+    button.onclick=()=>{
+      const id=button.dataset.aiCar;
+      const card=document.querySelector('.listing[data-id="'+CSS.escape(id)+'"]');
+      if(!card){
+        showToast('That car is not currently visible in the marketplace');
+        return;
+      }
+      card.scrollIntoView({behavior:'smooth',block:'center'});
+      card.classList.add('ai-highlight');
+      setTimeout(()=>card.classList.remove('ai-highlight'),1800);
+    };
+  });
 };
 
 if(mobileMenuBtn){
