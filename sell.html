@@ -1,1 +1,89 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>List a Car — Bigex Cars</title><link rel="stylesheet" href="style.css"></head><body><div class="noise"></div><header class="nav container"><a class="brand" href="index.html"><span>BIGEX</span><b>CARS</b></a><nav><a href="index.html#explore">Explore</a><a href="index.html#compare">Compare</a><a href="index.html#sell">Sell</a></nav><a class="ghost-btn" href="index.html">Back</a></header><main class="container seller-page"><section class="seller-hero"><p class="eyebrow">SELL ON BIGEX CARS</p><h1>Put your car in front of <em>serious buyers.</em></h1><p>Enter the details below. Your listing will be submitted for review before it appears publicly.</p></section><form id="listingForm" class="listing-form"><div class="form-section"><p class="eyebrow">01 // VEHICLE</p><h2>Tell us about the car</h2><div class="form-grid"><label>Make & model<input name="name" required placeholder="e.g. Toyota Land Cruiser"></label><label>Year<input name="year" type="number" min="1950" max="2030" required placeholder="2024"></label><label>Body type<select name="type" required><option value="">Select type</option><option>SUV</option><option>Sedan</option><option>Coupe</option><option>Hatchback</option><option>Pickup</option><option>Van</option><option>Electric</option></select></label><label>Fuel<select name="fuel" required><option value="">Select fuel</option><option>Petrol</option><option>Diesel</option><option>Hybrid</option><option>Electric</option></select></label><label>Price (₦)<input name="price" type="number" min="1" required placeholder="45000000"></label><label>Mileage (km)<input name="mileage" type="number" min="0" required placeholder="18000"></label><label>Location<input name="location" required placeholder="Lagos"></label><label>Transmission<select name="transmission"><option>Automatic</option><option>Manual</option></select></label></div></div><div class="form-section"><p class="eyebrow">02 // DETAILS</p><h2>Make buyers interested</h2><label class="full">Description<textarea name="description" rows="6" required placeholder="Condition, service history, ownership, standout features..."></textarea></label><label class="full">Photo URL <span class="optional">(optional for now)</span><input name="image_url" type="url" placeholder="https://..."></label></div><div class="form-section"><p class="eyebrow">03 // SELLER</p><h2>How buyers can identify you</h2><div class="form-grid"><label>Seller name<input name="seller_name" required placeholder="Your name or business"></label><label>Phone number<input name="phone" required placeholder="+234..."></label><label class="full">Email<input name="email" type="email" required placeholder="you@example.com"></label></div></div><div class="submit-row"><div><strong>Review first.</strong><span>New listings start as pending and can be approved by the admin.</span></div><button class="primary-btn" type="submit">Submit listing ↗</button></div><p id="formStatus" class="form-status"></p></form></main><script type="module" src="sell.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="List your vehicle on Bigex Cars.">
+<title>List a Car — Bigex Cars</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="noise"></div>
+<header class="nav container">
+  <a class="brand" href="index.html"><span>BIGEX</span> <b>CARS</b></a>
+  <nav><a href="index.html#explore">Explore</a><a href="index.html#compare">Compare</a><a href="index.html#sell">Sell</a></nav>
+  <div class="nav-actions"><a class="ghost-btn" href="index.html">Back</a><button class="mobile-menu-btn" aria-label="Open menu">☰</button></div>
+</header>
+
+<main class="container seller-page">
+  <section class="seller-hero">
+    <p class="eyebrow">LIST YOUR CAR</p>
+    <h1>Put your car in front of <em>serious buyers.</em></h1>
+    <p>Give buyers the details they need. Your listing is reviewed before it appears publicly.</p>
+    <div class="sell-steps" aria-label="Listing steps">
+      <div class="sell-step active"><span>01</span><strong>Vehicle</strong></div>
+      <div class="sell-step"><span>02</span><strong>Details</strong></div>
+      <div class="sell-step"><span>03</span><strong>Seller</strong></div>
+    </div>
+  </section>
+
+  <div class="sell-layout">
+    <form id="listingForm" class="listing-form">
+      <div class="form-section">
+        <p class="eyebrow">01 // VEHICLE</p>
+        <h2>Tell us about the car</h2>
+        <div class="form-grid">
+          <label>Make & model<input name="name" required autocomplete="off" placeholder="e.g. Toyota Land Cruiser"></label>
+          <label>Year<input name="year" type="number" min="1950" max="2030" required placeholder="2024"></label>
+          <label>Body type<select name="type" required><option value="">Select type</option><option>SUV</option><option>Sedan</option><option>Coupe</option><option>Hatchback</option><option>Pickup</option><option>Van</option><option>Electric</option></select></label>
+          <label>Fuel<select name="fuel" required><option value="">Select fuel</option><option>Petrol</option><option>Diesel</option><option>Hybrid</option><option>Electric</option></select></label>
+          <label>Price (₦)<input name="price" type="number" min="1" required inputmode="numeric" placeholder="45000000"><small class="field-help" id="pricePreview">Enter your asking price</small></label>
+          <label>Mileage (km)<input name="mileage" type="number" min="0" required inputmode="numeric" placeholder="18000"></label>
+          <label>Location<input name="location" required autocomplete="address-level2" placeholder="Lagos"></label>
+          <label>Transmission<select name="transmission"><option>Automatic</option><option>Manual</option></select></label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <p class="eyebrow">02 // DETAILS</p>
+        <h2>Make buyers interested</h2>
+        <label class="full">Description<textarea name="description" rows="7" maxlength="800" required placeholder="Condition, service history, ownership, standout features..."></textarea><small class="field-help char-count"><span id="charCount">0</span>/800 characters</small></label>
+        <div class="image-field">
+          <label class="full">Photo URL <span class="optional">(optional for now)</span><input name="image_url" type="url" placeholder="https://..."></label>
+          <div id="imagePreview" class="image-preview" aria-live="polite"><span>PHOTO PREVIEW</span><strong>Paste an image URL above</strong></div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <p class="eyebrow">03 // SELLER</p>
+        <h2>How buyers can reach you</h2>
+        <div class="form-grid">
+          <label>Seller name<input name="seller_name" required autocomplete="name" placeholder="Your name or business"></label>
+          <label>Phone number<input name="phone" required autocomplete="tel" placeholder="+234..."></label>
+          <label class="full">Email<input name="email" type="email" required autocomplete="email" placeholder="you@example.com"></label>
+        </div>
+      </div>
+
+      <div class="submit-row">
+        <div><strong>Ready to submit?</strong><span>Your listing starts as <b>pending</b> and can be approved by an admin.</span></div>
+        <button class="primary-btn submit-listing" type="submit"><span>Submit listing</span> ↗</button>
+      </div>
+      <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
+    </form>
+
+    <aside class="listing-preview-card">
+      <div class="preview-label">LIVE LISTING PREVIEW</div>
+      <div id="summaryImage" class="summary-image">🚘</div>
+      <div class="summary-body">
+        <span id="summaryType" class="summary-type">YOUR CAR</span>
+        <h3 id="summaryName">Your car will appear here</h3>
+        <strong id="summaryPrice">₦—</strong>
+        <div class="summary-meta"><span id="summaryLocation">Location</span><span id="summaryMileage">— km</span></div>
+      </div>
+      <div class="preview-note">A clean photo and specific description help buyers understand the listing quickly.</div>
+    </aside>
+  </div>
+</main>
+<script type="module" src="sell.js"></script>
+</body>
+</html>
