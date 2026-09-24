@@ -54,3 +54,85 @@
   html{scroll-behavior:auto}
   .car-card,.listing-img img,.listing,.skeleton-card{animation:none;transition:none}
 }
+
+/* FRONTEND V2 — car detail */
+.detail-page{padding:70px 0 110px}
+.detail-loading{min-height:400px;display:grid;place-items:center;color:var(--muted);font-size:11px;letter-spacing:2px}
+.detail-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:start}
+.detail-main{min-width:0}
+.detail-image{height:min(58vw,560px);min-height:360px;position:relative;overflow:hidden;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,#17202b,#080b10);display:grid;place-items:center}
+.detail-image img{width:100%;height:100%;object-fit:cover;display:block}
+.detail-image-fallback{font-size:8rem;color:#273645;text-shadow:0 0 40px rgba(105,231,255,.18)}
+.detail-image .listing-badge{top:16px;left:16px}
+.detail-heading{display:flex;justify-content:space-between;gap:24px;align-items:end;padding:30px 0 24px;border-bottom:1px solid var(--line)}
+.detail-heading h1{font:700 clamp(34px,5vw,62px)/1 'Space Grotesk';letter-spacing:-2.5px;margin:10px 0 8px}
+.detail-location{margin:0;color:var(--muted);font-size:12px}
+.detail-price{font:700 clamp(22px,3vw,32px) 'Space Grotesk';color:var(--accent);white-space:nowrap}
+.detail-spec-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:24px}
+.detail-spec-grid>div{padding:20px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.detail-spec-grid>div:nth-child(3n){border-right:0}
+.detail-spec-grid>div:nth-last-child(-n+3){border-bottom:0}
+.detail-spec-grid span{display:block;color:#718092;font-size:9px;letter-spacing:1.2px;margin-bottom:9px}
+.detail-spec-grid strong{font:600 15px 'Space Grotesk'}
+.detail-copy{padding:34px 0 10px}
+.detail-copy p:last-child{color:#aeb7c5;line-height:1.9;font-size:14px;max-width:760px}
+.seller-card{position:sticky;top:24px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#111822,#090c11);padding:25px;box-shadow:0 20px 60px rgba(0,0,0,.24)}
+.seller-card h2{font:600 25px 'Space Grotesk';margin:10px 0 5px}
+.seller-location{color:var(--muted);font-size:12px;margin:0}
+.seller-divider{height:1px;background:var(--line);margin:22px 0}
+.seller-note{color:#8d98a8;font-size:12px;line-height:1.7}
+.seller-actions{display:grid;gap:9px;margin-top:20px}
+.seller-actions .primary-btn,.seller-actions .ghost-btn{text-align:center;text-decoration:none}
+.detail-empty{padding:100px 0;text-align:center;max-width:650px;margin:auto}
+.detail-empty h1{font:700 clamp(38px,6vw,64px)/1 'Space Grotesk';letter-spacing:-2px;margin:12px 0}
+.detail-empty p:not(.eyebrow){color:var(--muted);line-height:1.7;margin-bottom:25px}
+@media(max-width:900px){.detail-layout{grid-template-columns:1fr}.seller-card{position:static}}
+@media(max-width:600px){
+.detail-page{padding:35px 0 80px}.detail-image{height:70vw;min-height:260px;border-radius:18px}.detail-heading{display:block;padding:24px 0 20px}.detail-price{margin-top:15px}.detail-spec-grid{grid-template-columns:1fr 1fr}.detail-spec-grid>div:nth-child(3n){border-right:1px solid var(--line)}.detail-spec-grid>div:nth-child(2n){border-right:0}.detail-spec-grid>div:nth-last-child(-n+3){border-bottom:1px solid var(--line)}.detail-spec-grid>div:nth-last-child(-n+2){border-bottom:0}.seller-card{padding:20px}
+}
+/* FRONTEND V2 — sell page */
+.sell-steps{display:flex;gap:10px;margin-top:30px;max-width:720px}
+.sell-step{flex:1;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:rgba(13,17,24,.6);display:flex;align-items:center;gap:10px}
+.sell-step span{font:700 11px 'Space Grotesk';color:#687484}.sell-step strong{font-size:11px}.sell-step.active{border-color:rgba(184,255,53,.35);background:rgba(184,255,53,.05)}.sell-step.active span{color:var(--accent)}
+.sell-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;align-items:start}
+.listing-preview-card{position:sticky;top:24px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,#111822,#090c11);overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.24)}
+.preview-label{padding:17px 18px;border-bottom:1px solid var(--line);font-size:9px;letter-spacing:1.6px;color:var(--accent);font-weight:800}
+.summary-image{height:190px;background:linear-gradient(135deg,#18212c,#080b10);display:grid;place-items:center;font-size:65px;color:#263443;overflow:hidden}.summary-image img{width:100%;height:100%;object-fit:cover;display:block}.summary-image.has-image{font-size:0}
+.summary-body{padding:20px}.summary-type{font-size:9px;letter-spacing:1.5px;color:#718092}.summary-body h3{font:600 22px 'Space Grotesk';margin:8px 0 12px}.summary-body>strong{font:700 20px 'Space Grotesk';color:var(--accent)}
+.summary-meta{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);margin-top:17px;padding-top:13px;color:var(--muted);font-size:10px}.summary-meta span:first-child{max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.preview-note{padding:16px 20px;border-top:1px solid var(--line);color:#718092;font-size:10px;line-height:1.6}
+.field-help{color:#657181;font-size:10px}.char-count{text-align:right;display:block;margin-top:5px}.image-field{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:18px;align-items:end}.image-field .full{margin-top:18px}.image-preview{height:112px;border:1px dashed var(--line);border-radius:12px;background:#080c12;display:grid;place-items:center;text-align:center;padding:10px;overflow:hidden}.image-preview span{font-size:8px;letter-spacing:1.4px;color:#657181}.image-preview strong{font-size:10px;color:#9ba6b5;font-weight:500}.image-preview img{width:100%;height:100%;object-fit:cover}
+.submit-listing:disabled{opacity:.65;cursor:wait}.submit-listing.is-loading{position:relative}.form-status:empty{display:none}
+@media(max-width:900px){.sell-layout{grid-template-columns:1fr}.listing-preview-card{position:static;display:grid;grid-template-columns:180px 1fr}.listing-preview-card .preview-label{grid-column:1/-1}.summary-image{height:100%}.preview-note{grid-column:1/-1}}
+@media(max-width:650px){.sell-steps{overflow:auto}.sell-step{min-width:110px}.sell-layout{gap:15px}.image-field{grid-template-columns:1fr}.image-preview{height:180px}.listing-preview-card{display:block}.summary-image{height:190px}.seller-page{padding-top:35px}.seller-hero{padding-bottom:35px}}
+
+/* FRONTEND V2 — comparison */
+.compare-bar-actions{display:flex;gap:7px;align-items:center}.compare-clear{border:1px solid var(--line)!important;background:transparent!important;color:var(--muted)!important}.compare-modal{position:fixed;inset:0;z-index:100;background:rgba(3,5,8,.78);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}.compare-modal.open{display:flex}.compare-dialog{width:min(1050px,100%);max-height:min(760px,90vh);overflow:hidden;border:1px solid var(--line);border-radius:22px;background:#0b1017;box-shadow:0 30px 100px rgba(0,0,0,.65)}.compare-dialog-head{display:flex;justify-content:space-between;align-items:center;padding:24px 26px;border-bottom:1px solid var(--line)}.compare-dialog-head h2{font:700 34px 'Space Grotesk';letter-spacing:-1.5px;margin:5px 0 0}.compare-close{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;background:none;color:white;font-size:24px;cursor:pointer}.compare-table-wrap{overflow:auto}.compare-table{width:100%;border-collapse:collapse;min-width:650px}.compare-table th,.compare-table td{padding:17px 18px;text-align:left;border-bottom:1px solid var(--line);font-size:12px;vertical-align:top}.compare-table thead th{background:#0e151e;position:sticky;top:0}.compare-table thead th:first-child{color:var(--muted);width:150px}.compare-table tbody th{color:#718092;font-weight:500}.compare-table tbody td{color:#e7ebf0}.compare-table tbody tr:first-child td{color:var(--accent);font:700 16px 'Space Grotesk'}.compare-table thead strong{display:block;font:600 15px 'Space Grotesk';margin-bottom:9px;max-width:180px}.remove-compare{border:0;background:none;color:#718092;padding:0;font-size:9px;cursor:pointer}.remove-compare:hover{color:#ff8e8e}
+@media(max-width:600px){.compare-bar{align-items:flex-start}.compare-bar-actions{flex-shrink:0}.compare-dialog{border-radius:16px}.compare-dialog-head{padding:20px}.compare-dialog-head h2{font-size:28px}.compare-modal{padding:10px}}
+
+/* FRONTEND V2 — admin control center */
+.admin-nav-right{display:flex;align-items:center;gap:12px}.admin-pill{padding:7px 10px;border:1px solid rgba(184,255,53,.22);border-radius:999px;color:var(--accent);font-size:9px;font-weight:800;letter-spacing:1.2px;background:rgba(184,255,53,.04)}
+.admin-page{padding:65px 0 110px}.admin-hero{display:flex;justify-content:space-between;align-items:end;gap:30px;padding:25px 0 42px}.admin-hero h1{font:700 clamp(48px,7vw,76px)/.95 'Space Grotesk';letter-spacing:-4px;margin:12px 0 18px}.admin-hero h1 em{font-style:normal;color:var(--accent)}.admin-hero p:not(.eyebrow){color:var(--muted);max-width:620px;line-height:1.7;margin:0}.admin-status{border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:15px;background:rgba(13,17,24,.72);margin-bottom:18px}.admin-status strong{font-size:12px}.admin-status span{color:var(--muted);font-size:11px}.admin-status.success{border-color:rgba(184,255,53,.2)}.admin-status.success strong{color:var(--accent)}.admin-status.error{border-color:rgba(255,102,122,.25)}.admin-status.error strong{color:#ff8e8e}.admin-status a{margin-left:auto;color:white;font-size:11px;text-decoration:none}
+.admin-stats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:70px}.admin-stats>div{padding:24px;border-right:1px solid var(--line);background:rgba(13,17,24,.55)}.admin-stats>div:last-child{border-right:0}.admin-stats span,.admin-stats small{display:block;color:var(--muted);font-size:10px}.admin-stats strong{display:block;font:700 34px 'Space Grotesk';color:var(--accent);margin:8px 0}.admin-section{margin-top:50px}.admin-section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:18px}.admin-section-head h2{font:600 31px 'Space Grotesk';letter-spacing:-1.5px;margin:7px 0 0}.admin-count{font-size:10px;color:var(--muted);border:1px solid var(--line);padding:8px 10px;border-radius:999px}.admin-list{display:grid;gap:10px}.admin-listing{display:grid;grid-template-columns:130px minmax(0,1fr) auto;gap:20px;align-items:center;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,#0e141d,#090c11);padding:13px;transition:.2s}.admin-listing:hover{border-color:rgba(184,255,53,.22);transform:translateY(-2px)}.admin-thumb{height:110px;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#18212c,#080b10);display:grid;place-items:center;color:#263443;font-size:45px}.admin-thumb img{width:100%;height:100%;object-fit:cover}.admin-listing-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}.admin-status-badge{font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:5px 8px;border-radius:999px}.admin-status-badge.pending{color:#ffd37a;background:rgba(255,211,122,.08)}.admin-status-badge.approved{color:var(--accent);background:rgba(184,255,53,.08)}.admin-date{font-size:9px;color:#5f6a79}.admin-listing h3{font:600 20px 'Space Grotesk';margin:0 0 6px}.admin-meta,.admin-seller{color:var(--muted);font-size:10px;margin:0 0 6px}.admin-seller{margin-top:9px}.admin-price{display:block;color:var(--accent);font:700 16px 'Space Grotesk'}.admin-actions{display:flex;flex-direction:column;gap:7px;min-width:92px}.admin-btn{border:1px solid var(--line);padding:9px 12px;border-radius:9px;font-size:10px;font-weight:800;cursor:pointer;background:#111822;color:white}.admin-btn.approve{background:var(--accent);color:#07090d;border-color:var(--accent)}.admin-btn.reject{background:rgba(255,102,122,.08);color:#ff8e8e;border-color:rgba(255,102,122,.22)}.admin-btn.remove{color:#ff8e8e}.admin-btn:hover{filter:brightness(1.08)}.admin-empty,.admin-loading{border:1px dashed var(--line);border-radius:16px;padding:34px;text-align:center;color:var(--muted);background:rgba(13,17,24,.4)}.admin-empty strong{display:block;color:white;font:600 18px 'Space Grotesk';margin-bottom:6px}.admin-empty span{font-size:11px}
+@media(max-width:700px){.admin-nav{height:auto;padding:18px 0}.admin-nav-right{gap:7px}.admin-pill{display:none}.admin-page{padding-top:35px}.admin-hero{display:block}.admin-hero .ghost-btn{display:inline-block;margin-top:20px}.admin-stats{grid-template-columns:1fr}.admin-stats>div{border-right:0;border-bottom:1px solid var(--line)}.admin-stats>div:last-child{border-bottom:0}.admin-listing{grid-template-columns:82px minmax(0,1fr)}.admin-thumb{height:82px}.admin-actions{grid-column:1/-1;display:flex;flex-direction:row;justify-content:flex-end}.admin-btn{flex:1}.admin-section-head{align-items:center}.admin-section-head h2{font-size:25px}.admin-status{align-items:flex-start;flex-direction:column;gap:5px}.admin-status a{margin-left:0;margin-top:5px}}
+
+/* AI recommendation interactions */
+.ai-recommendations{display:grid;gap:7px;margin-top:10px}
+.ai-recommendation{width:100%;display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;text-align:left;border:1px solid var(--line);border-radius:10px;background:#0d131c;color:white;padding:10px 12px;cursor:pointer}
+.ai-recommendation:hover,.ai-recommendation:focus-visible{border-color:rgba(184,255,53,.55);background:#111a23;outline:none}
+.ai-recommendation strong{font:600 12px 'Space Grotesk';overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ai-recommendation span{font-size:9px;color:var(--muted);white-space:nowrap}
+.ai-recommendation::after{content:'↗';color:var(--accent);font-size:13px}
+.listing.ai-highlight{border-color:var(--accent);box-shadow:0 0 0 3px rgba(184,255,53,.12),0 20px 60px rgba(184,255,53,.12);transform:translateY(-5px)}
+.compare-modal{pointer-events:none}
+.compare-modal.open{pointer-events:auto}
+
+/* BIGEX INTELLIGENCE — conversational UI */
+.ai-answer{color:#cbd3dd;font-size:12px;line-height:1.65;white-space:pre-wrap}
+.ai-thinking{color:var(--muted)}
+.ai-recommendation{grid-template-columns:minmax(0,1fr) auto;gap:3px 10px}
+.ai-recommendation strong{font-size:12px}
+.ai-recommendation span{font-size:9px}
+.ai-recommendation small{grid-column:1/-1;color:#718092;font-size:9px;line-height:1.4}
+.ai-recommendation::after{grid-column:2;grid-row:1;color:var(--accent);font-size:13px}
+.ai-recommendation:disabled{opacity:.55;cursor:wait}

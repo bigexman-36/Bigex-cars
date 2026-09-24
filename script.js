@@ -53,11 +53,17 @@ function updateCompareBar(){
     bar.classList.remove('show');
     return;
   }
-  bar.innerHTML='<div><strong>'+selected.length+' car'+(selected.length>1?'s':'')+' selected</strong><span>'+selected.map(c=>esc(c.name)).join(' · ')+'</span></div><button type="button" id="compareAction">Compare ↗</button>';
+  bar.innerHTML='<div><strong>'+selected.length+' car'+(selected.length>1?'s':'')+' selected</strong><span>'+selected.map(c=>esc(c.name)).join(' · ')+'</span></div><div class="compare-bar-actions"><button class="compare-clear" type="button" id="compareClear">Clear</button><button type="button" id="compareAction">Compare ↗</button></div>';
   bar.classList.add('show');
-  document.getElementById('compareAction').onclick=()=>{
-    document.getElementById('compare')?.scrollIntoView({behavior:'smooth'});
-    showToast('Comparison selection is ready');
+  document.getElementById('compareAction').onclick=(event)=>{
+  event.preventDefault();
+  event.stopPropagation();
+  openComparePanel();
+};
+  document.getElementById('compareClear').onclick=()=>{
+    compare.clear();
+    render();
+    updateCompareBar();
   };
 }
 
@@ -132,6 +138,56 @@ function render(){
   updateCompareBar();
 }
 
+function openComparePanel(){
+  const selected=[...compare].map(id=>cloudCars.find(c=>c.id===id)).filter(Boolean);
+  if(selected.length<2){
+    showToast('Select at least 2 cars to compare');
+    return;
+  }
+
+  let modal=document.getElementById('compareModal');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.id='compareModal';
+    modal.className='compare-modal';
+    modal.innerHTML='<div class="compare-dialog" role="dialog" aria-modal="true" aria-labelledby="compareTitle"><div class="compare-dialog-head"><div><p class="eyebrow">SIDE BY SIDE</p><h2 id="compareTitle">Compare cars</h2></div><button class="compare-close" type="button" aria-label="Close comparison">×</button></div><div class="compare-table-wrap"><table class="compare-table"><thead><tr><th>Specification</th></tr></thead><tbody></tbody></table></div></div>';
+    document.body.appendChild(modal);
+    modal.querySelector('.compare-close').onclick=()=>{
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+    };
+    modal.addEventListener('click',e=>{
+      if(e.target===modal){
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden','true');
+      }
+    });
+  }
+
+  const table=modal.querySelector('.compare-table');
+  table.querySelector('thead tr').innerHTML='<th>Specification</th>'+selected.map(c=>'<th><strong>'+esc(c.name)+'</strong><button class="remove-compare" data-remove-compare="'+esc(c.id)+'" type="button">Remove</button></th>').join('');
+  const rows=[
+    ['Price',...selected.map(c=>c.price)],
+    ['Year',...selected.map(c=>c.year)],
+    ['Body type',...selected.map(c=>c.type)],
+    ['Fuel',...selected.map(c=>c.fuel)],
+    ['Mileage',...selected.map(c=>c.mileage)],
+    ['Transmission',...selected.map(c=>c.transmission||'Automatic')],
+    ['Location',...selected.map(c=>c.location)],
+    ['Seller',...selected.map(c=>c.seller_name||'—')]
+  ];
+  table.querySelector('tbody').innerHTML=rows.map(row=>'<tr>'+row.map((value,i)=>'<'+(i===0?'th':'td')+'>'+esc(value)+'</'+(i===0?'th':'td')+'>').join('')+'</tr>').join('');
+  table.querySelectorAll('[data-remove-compare]').forEach(button=>button.onclick=()=>{
+    compare.delete(button.dataset.removeCompare);
+    render();
+    updateCompareBar();
+    if(compare.size<2) modal.classList.remove('open');
+    else openComparePanel();
+  });
+  modal.setAttribute('aria-hidden','false');
+  modal.classList.add('open');
+  modal.querySelector('.compare-close')?.focus();
+}
 function resetMarketplace(){
   activeFilter='all';
   query='';
@@ -209,24 +265,90 @@ document.getElementById('loginBtn').onclick=async event=>{
 
 document.getElementById('sellBtn').onclick=()=>location.href='sell.html';
 
-document.getElementById('aiBtn').onclick=()=>{
+const aiHistory=[];
+
+function renderAiReply(data){
+  const reply=document.getElementById('aiReply');
+  const message=esc(data.message||'');
+  const matches=Array.isArray(data.recommendations)?data.recommendations:[];
+  reply.innerHTML='<div class="ai-answer">'+message+'</div>'+
+    (matches.length?'<div class="ai-recommendations">'+
+      matches.map(item=>{
+        const car=cloudCars.find(c=>String(c.id)===String(item.id));
+        if(!car) return '';
+        return '<button type="button" class="ai-recommendation" data-ai-car="'+esc(car.id)+'">'+
+          '<strong>'+esc(car.name)+'</strong>'+
+          '<span>'+esc(car.price)+' · '+esc(car.location)+'</span>'+
+          '<small>'+esc(item.reason||'Matches your preferences')+'</small>'+
+        '</button>';
+      }).join('')+'</div>':'');
+  reply.querySelectorAll('[data-ai-car]').forEach(button=>{
+    button.onclick=()=>{
+      const id=button.dataset.aiCar;
+      const card=document.querySelector('.listing[data-id="'+CSS.escape(id)+'"]');
+      if(!card){
+        showToast('That car is not currently visible in the marketplace');
+        return;
+      }
+      card.scrollIntoView({behavior:'smooth',block:'center'});
+      card.classList.add('ai-highlight');
+      setTimeout(()=>card.classList.remove('ai-highlight'),1800);
+    };
+  });
+}
+
+async function askBigexAI(userMessage){
+  const response=await fetch('https://yczragtkgtqtngdodkgk.supabase.co/functions/v1/bigex-ai',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      message:userMessage,
+      history:aiHistory.slice(-10),
+      cars:cloudCars.map(c=>({
+        id:c.id,name:c.name,price:c.price,year:c.year,type:c.type,fuel:c.fuel,
+        mileage:c.mileage,location:c.location,transmission:c.transmission,
+        seller_name:c.seller_name||''
+      }))
+    })
+  });
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok) throw new Error(data.error||'Bigex Intelligence is unavailable right now.');
+  return data;
+}
+
+document.getElementById('aiBtn').onclick=async()=>{
   const input=document.getElementById('aiInput');
   const reply=document.getElementById('aiReply');
-  const text=input.value.trim().toLowerCase();
-  if(!text){
-    reply.textContent='Try a body type, location, fuel preference, or brand.';
-    return;
+  const userMessage=input.value.trim();
+  if(!userMessage) return;
+
+  const button=document.getElementById('aiBtn');
+  button.disabled=true;
+  input.disabled=true;
+  reply.innerHTML='<div class="ai-answer ai-thinking">Thinking through your requirements…</div>';
+
+  try{
+    const data=await askBigexAI(userMessage);
+    aiHistory.push({role:'user',content:userMessage});
+    aiHistory.push({role:'assistant',content:data.message||''});
+    renderAiReply(data);
+    input.value='';
+  }catch(error){
+    console.error(error);
+    reply.innerHTML='<div class="ai-answer">'+esc(error.message||'Something went wrong. Please try again.')+'</div>';
+  }finally{
+    button.disabled=false;
+    input.disabled=false;
+    input.focus();
   }
-  const matches=cloudCars.filter(c=>
-    text.includes(String(c.type||'').toLowerCase())||
-    text.includes(String(c.fuel||'').toLowerCase())||
-    text.includes(String(c.location||'').toLowerCase())||
-    text.includes(String(c.name||'').split(' ')[0].toLowerCase())
-  );
-  reply.textContent=matches.length
-    ?'Possible matches: '+matches.slice(0,4).map(c=>c.name).join(', ')+'.'
-    :'Try mentioning SUV, Sedan, Electric, Lagos, Toyota, BMW, or another preference.';
 };
+
+document.getElementById('aiInput').addEventListener('keydown',event=>{
+  if(event.key==='Enter'&&!event.shiftKey){
+    event.preventDefault();
+    document.getElementById('aiBtn').click();
+  }
+});
 
 if(mobileMenuBtn){
   mobileMenuBtn.onclick=()=>{
