@@ -6,7 +6,7 @@ insert into public.listings
 values
   ('Toyota Land Cruiser', 2023, 'SUV', 'Petrol', 82000000, 18400, 'Lagos',
    '2023 Toyota Land Cruiser J300. Demo marketplace listing.',
-   'https://commons.wikimedia.org/wiki/Special:Redirect/file/2023_Toyota_Land_Cruiser_J300_3.4_VX_V6_2023.jpg', 'approved'),
+   'https://commons.wikimedia.org/wiki/Special:FilePath/2023_Toyota_Land_Cruiser_300_3.4_VX_V6_in_Precious_White_Pearl%2C_06-12-2024.jpg', 'approved'),
 
   ('Lexus RX 350', 2024, 'SUV', 'Petrol', 67500000, 8200, 'Abuja',
    '2024 Lexus RX 350. Demo marketplace listing.',
