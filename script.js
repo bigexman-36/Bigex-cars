@@ -309,7 +309,19 @@ async function askBigexAI(userMessage){
       }))
     }
   });
-  if(error) throw new Error(error.message||'Bigex Intelligence is unavailable right now.');
+  if(error){
+    let detail=error.message||'Bigex Intelligence is unavailable right now.';
+    try{
+      const response=error.context;
+      if(response?.json){
+        const payload=await response.json();
+        if(payload?.error) detail=String(payload.error);
+        else if(payload?.message) detail=String(payload.message);
+      }
+    }catch(_){ /* keep the original error */ }
+    throw new Error(detail);
+  }
+  if(data?.error) throw new Error(String(data.error));
   return data||{};
 }
 
