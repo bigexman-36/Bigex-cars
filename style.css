@@ -54,3 +54,39 @@
   html{scroll-behavior:auto}
   .car-card,.listing-img img,.listing,.skeleton-card{animation:none;transition:none}
 }
+
+/* FRONTEND V2 — car detail */
+.detail-page{padding:70px 0 110px}
+.detail-loading{min-height:400px;display:grid;place-items:center;color:var(--muted);font-size:11px;letter-spacing:2px}
+.detail-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:start}
+.detail-main{min-width:0}
+.detail-image{height:min(58vw,560px);min-height:360px;position:relative;overflow:hidden;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,#17202b,#080b10);display:grid;place-items:center}
+.detail-image img{width:100%;height:100%;object-fit:cover;display:block}
+.detail-image-fallback{font-size:8rem;color:#273645;text-shadow:0 0 40px rgba(105,231,255,.18)}
+.detail-image .listing-badge{top:16px;left:16px}
+.detail-heading{display:flex;justify-content:space-between;gap:24px;align-items:end;padding:30px 0 24px;border-bottom:1px solid var(--line)}
+.detail-heading h1{font:700 clamp(34px,5vw,62px)/1 'Space Grotesk';letter-spacing:-2.5px;margin:10px 0 8px}
+.detail-location{margin:0;color:var(--muted);font-size:12px}
+.detail-price{font:700 clamp(22px,3vw,32px) 'Space Grotesk';color:var(--accent);white-space:nowrap}
+.detail-spec-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:24px}
+.detail-spec-grid>div{padding:20px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.detail-spec-grid>div:nth-child(3n){border-right:0}
+.detail-spec-grid>div:nth-last-child(-n+3){border-bottom:0}
+.detail-spec-grid span{display:block;color:#718092;font-size:9px;letter-spacing:1.2px;margin-bottom:9px}
+.detail-spec-grid strong{font:600 15px 'Space Grotesk'}
+.detail-copy{padding:34px 0 10px}
+.detail-copy p:last-child{color:#aeb7c5;line-height:1.9;font-size:14px;max-width:760px}
+.seller-card{position:sticky;top:24px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#111822,#090c11);padding:25px;box-shadow:0 20px 60px rgba(0,0,0,.24)}
+.seller-card h2{font:600 25px 'Space Grotesk';margin:10px 0 5px}
+.seller-location{color:var(--muted);font-size:12px;margin:0}
+.seller-divider{height:1px;background:var(--line);margin:22px 0}
+.seller-note{color:#8d98a8;font-size:12px;line-height:1.7}
+.seller-actions{display:grid;gap:9px;margin-top:20px}
+.seller-actions .primary-btn,.seller-actions .ghost-btn{text-align:center;text-decoration:none}
+.detail-empty{padding:100px 0;text-align:center;max-width:650px;margin:auto}
+.detail-empty h1{font:700 clamp(38px,6vw,64px)/1 'Space Grotesk';letter-spacing:-2px;margin:12px 0}
+.detail-empty p:not(.eyebrow){color:var(--muted);line-height:1.7;margin-bottom:25px}
+@media(max-width:900px){.detail-layout{grid-template-columns:1fr}.seller-card{position:static}}
+@media(max-width:600px){
+.detail-page{padding:35px 0 80px}.detail-image{height:70vw;min-height:260px;border-radius:18px}.detail-heading{display:block;padding:24px 0 20px}.detail-price{margin-top:15px}.detail-spec-grid{grid-template-columns:1fr 1fr}.detail-spec-grid>div:nth-child(3n){border-right:1px solid var(--line)}.detail-spec-grid>div:nth-child(2n){border-right:0}.detail-spec-grid>div:nth-last-child(-n+3){border-bottom:1px solid var(--line)}.detail-spec-grid>div:nth-last-child(-n+2){border-bottom:0}.seller-card{padding:20px}
+}
