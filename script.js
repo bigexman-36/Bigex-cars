@@ -265,32 +265,23 @@ document.getElementById('loginBtn').onclick=async event=>{
 
 document.getElementById('sellBtn').onclick=()=>location.href='sell.html';
 
-document.getElementById('aiBtn').onclick=()=>{
-  const input=document.getElementById('aiInput');
+const aiHistory=[];
+
+function renderAiReply(data){
   const reply=document.getElementById('aiReply');
-  const text=input.value.trim().toLowerCase();
-  if(!text){
-    reply.innerHTML='<span>Try a body type, location, fuel preference, or brand.</span>';
-    return;
-  }
-
-  const matches=cloudCars.filter(c=>
-    text.includes(String(c.type||'').toLowerCase())||
-    text.includes(String(c.fuel||'').toLowerCase())||
-    text.includes(String(c.location||'').toLowerCase())||
-    text.includes(String(c.name||'').toLowerCase())||
-    text.includes(String(c.name||'').split(' ')[0].toLowerCase())
-  ).slice(0,4);
-
-  if(!matches.length){
-    reply.innerHTML='<span>Try mentioning SUV, Sedan, Electric, Lagos, Toyota, BMW, or another preference.</span>';
-    return;
-  }
-
-  reply.innerHTML='<span>Possible matches — tap one to view it:</span><div class="ai-recommendations">'+
-    matches.map(c=>'<button type="button" class="ai-recommendation" data-ai-car="'+esc(c.id)+'"><strong>'+esc(c.name)+'</strong><span>'+esc(c.price)+' · '+esc(c.location)+'</span>↗</button>').join('')+
-    '</div>';
-
+  const message=esc(data.message||'');
+  const matches=Array.isArray(data.recommendations)?data.recommendations:[];
+  reply.innerHTML='<div class="ai-answer">'+message+'</div>'+
+    (matches.length?'<div class="ai-recommendations">'+
+      matches.map(item=>{
+        const car=cloudCars.find(c=>String(c.id)===String(item.id));
+        if(!car) return '';
+        return '<button type="button" class="ai-recommendation" data-ai-car="'+esc(car.id)+'">'+
+          '<strong>'+esc(car.name)+'</strong>'+
+          '<span>'+esc(car.price)+' · '+esc(car.location)+'</span>'+
+          '<small>'+esc(item.reason||'Matches your preferences')+'</small>'+
+        '</button>';
+      }).join('')+'</div>':'');
   reply.querySelectorAll('[data-ai-car]').forEach(button=>{
     button.onclick=()=>{
       const id=button.dataset.aiCar;
@@ -304,7 +295,60 @@ document.getElementById('aiBtn').onclick=()=>{
       setTimeout(()=>card.classList.remove('ai-highlight'),1800);
     };
   });
+}
+
+async function askBigexAI(userMessage){
+  const response=await fetch('https://yczragtkgtqtngdodkgk.supabase.co/functions/v1/bigex-ai',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      message:userMessage,
+      history:aiHistory.slice(-10),
+      cars:cloudCars.map(c=>({
+        id:c.id,name:c.name,price:c.price,year:c.year,type:c.type,fuel:c.fuel,
+        mileage:c.mileage,location:c.location,transmission:c.transmission,
+        seller_name:c.seller_name||''
+      }))
+    })
+  });
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok) throw new Error(data.error||'Bigex Intelligence is unavailable right now.');
+  return data;
+}
+
+document.getElementById('aiBtn').onclick=async()=>{
+  const input=document.getElementById('aiInput');
+  const reply=document.getElementById('aiReply');
+  const userMessage=input.value.trim();
+  if(!userMessage) return;
+
+  const button=document.getElementById('aiBtn');
+  button.disabled=true;
+  input.disabled=true;
+  reply.innerHTML='<div class="ai-answer ai-thinking">Thinking through your requirements…</div>';
+
+  try{
+    const data=await askBigexAI(userMessage);
+    aiHistory.push({role:'user',content:userMessage});
+    aiHistory.push({role:'assistant',content:data.message||''});
+    renderAiReply(data);
+    input.value='';
+  }catch(error){
+    console.error(error);
+    reply.innerHTML='<div class="ai-answer">'+esc(error.message||'Something went wrong. Please try again.')+'</div>';
+  }finally{
+    button.disabled=false;
+    input.disabled=false;
+    input.focus();
+  }
 };
+
+document.getElementById('aiInput').addEventListener('keydown',event=>{
+  if(event.key==='Enter'&&!event.shiftKey){
+    event.preventDefault();
+    document.getElementById('aiBtn').click();
+  }
+});
 
 if(mobileMenuBtn){
   mobileMenuBtn.onclick=()=>{
