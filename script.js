@@ -298,10 +298,8 @@ function renderAiReply(data){
 }
 
 async function askBigexAI(userMessage){
-  const response=await fetch('https://yczragtkgtqtngdodkgk.supabase.co/functions/v1/bigex-ai',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
+  const {data,error}=await supabase.functions.invoke('bigex-ai',{
+    body:{
       message:userMessage,
       history:aiHistory.slice(-10),
       cars:cloudCars.map(c=>({
@@ -309,11 +307,10 @@ async function askBigexAI(userMessage){
         mileage:c.mileage,location:c.location,transmission:c.transmission,
         seller_name:c.seller_name||''
       }))
-    })
+    }
   });
-  const data=await response.json().catch(()=>({}));
-  if(!response.ok) throw new Error(data.error||'Bigex Intelligence is unavailable right now.');
-  return data;
+  if(error) throw new Error(error.message||'Bigex Intelligence is unavailable right now.');
+  return data||{};
 }
 
 document.getElementById('aiBtn').onclick=async()=>{
