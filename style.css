@@ -90,3 +90,18 @@
 @media(max-width:600px){
 .detail-page{padding:35px 0 80px}.detail-image{height:70vw;min-height:260px;border-radius:18px}.detail-heading{display:block;padding:24px 0 20px}.detail-price{margin-top:15px}.detail-spec-grid{grid-template-columns:1fr 1fr}.detail-spec-grid>div:nth-child(3n){border-right:1px solid var(--line)}.detail-spec-grid>div:nth-child(2n){border-right:0}.detail-spec-grid>div:nth-last-child(-n+3){border-bottom:1px solid var(--line)}.detail-spec-grid>div:nth-last-child(-n+2){border-bottom:0}.seller-card{padding:20px}
 }
+/* FRONTEND V2 — sell page */
+.sell-steps{display:flex;gap:10px;margin-top:30px;max-width:720px}
+.sell-step{flex:1;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:rgba(13,17,24,.6);display:flex;align-items:center;gap:10px}
+.sell-step span{font:700 11px 'Space Grotesk';color:#687484}.sell-step strong{font-size:11px}.sell-step.active{border-color:rgba(184,255,53,.35);background:rgba(184,255,53,.05)}.sell-step.active span{color:var(--accent)}
+.sell-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;align-items:start}
+.listing-preview-card{position:sticky;top:24px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,#111822,#090c11);overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.24)}
+.preview-label{padding:17px 18px;border-bottom:1px solid var(--line);font-size:9px;letter-spacing:1.6px;color:var(--accent);font-weight:800}
+.summary-image{height:190px;background:linear-gradient(135deg,#18212c,#080b10);display:grid;place-items:center;font-size:65px;color:#263443;overflow:hidden}.summary-image img{width:100%;height:100%;object-fit:cover;display:block}.summary-image.has-image{font-size:0}
+.summary-body{padding:20px}.summary-type{font-size:9px;letter-spacing:1.5px;color:#718092}.summary-body h3{font:600 22px 'Space Grotesk';margin:8px 0 12px}.summary-body>strong{font:700 20px 'Space Grotesk';color:var(--accent)}
+.summary-meta{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);margin-top:17px;padding-top:13px;color:var(--muted);font-size:10px}.summary-meta span:first-child{max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.preview-note{padding:16px 20px;border-top:1px solid var(--line);color:#718092;font-size:10px;line-height:1.6}
+.field-help{color:#657181;font-size:10px}.char-count{text-align:right;display:block;margin-top:5px}.image-field{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:18px;align-items:end}.image-field .full{margin-top:18px}.image-preview{height:112px;border:1px dashed var(--line);border-radius:12px;background:#080c12;display:grid;place-items:center;text-align:center;padding:10px;overflow:hidden}.image-preview span{font-size:8px;letter-spacing:1.4px;color:#657181}.image-preview strong{font-size:10px;color:#9ba6b5;font-weight:500}.image-preview img{width:100%;height:100%;object-fit:cover}
+.submit-listing:disabled{opacity:.65;cursor:wait}.submit-listing.is-loading{position:relative}.form-status:empty{display:none}
+@media(max-width:900px){.sell-layout{grid-template-columns:1fr}.listing-preview-card{position:static;display:grid;grid-template-columns:180px 1fr}.listing-preview-card .preview-label{grid-column:1/-1}.summary-image{height:100%}.preview-note{grid-column:1/-1}}
+@media(max-width:650px){.sell-steps{overflow:auto}.sell-step{min-width:110px}.sell-layout{gap:15px}.image-field{grid-template-columns:1fr}.image-preview{height:180px}.listing-preview-card{display:block}.summary-image{height:190px}.seller-page{padding-top:35px}.seller-hero{padding-bottom:35px}}
