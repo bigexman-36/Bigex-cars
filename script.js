@@ -53,11 +53,13 @@ function updateCompareBar(){
     bar.classList.remove('show');
     return;
   }
-  bar.innerHTML='<div><strong>'+selected.length+' car'+(selected.length>1?'s':'')+' selected</strong><span>'+selected.map(c=>esc(c.name)).join(' · ')+'</span></div><button type="button" id="compareAction">Compare ↗</button>';
+  bar.innerHTML='<div><strong>'+selected.length+' car'+(selected.length>1?'s':'')+' selected</strong><span>'+selected.map(c=>esc(c.name)).join(' · ')+'</span></div><div class="compare-bar-actions"><button class="compare-clear" type="button" id="compareClear">Clear</button><button type="button" id="compareAction">Compare ↗</button></div>';
   bar.classList.add('show');
-  document.getElementById('compareAction').onclick=()=>{
-    document.getElementById('compare')?.scrollIntoView({behavior:'smooth'});
-    showToast('Comparison selection is ready');
+  document.getElementById('compareAction').onclick=openComparePanel;
+  document.getElementById('compareClear').onclick=()=>{
+    compare.clear();
+    render();
+    updateCompareBar();
   };
 }
 
@@ -132,6 +134,46 @@ function render(){
   updateCompareBar();
 }
 
+function openComparePanel(){
+  const selected=[...compare].map(id=>cloudCars.find(c=>c.id===id)).filter(Boolean);
+  if(selected.length<2){
+    showToast('Select at least 2 cars to compare');
+    return;
+  }
+
+  let modal=document.getElementById('compareModal');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.id='compareModal';
+    modal.className='compare-modal';
+    modal.innerHTML='<div class="compare-dialog" role="dialog" aria-modal="true" aria-labelledby="compareTitle"><div class="compare-dialog-head"><div><p class="eyebrow">SIDE BY SIDE</p><h2 id="compareTitle">Compare cars</h2></div><button class="compare-close" type="button" aria-label="Close comparison">×</button></div><div class="compare-table-wrap"><table class="compare-table"><thead><tr><th>Specification</th></tr></thead><tbody></tbody></table></div></div>';
+    document.body.appendChild(modal);
+    modal.querySelector('.compare-close').onclick=()=>modal.classList.remove('open');
+    modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
+  }
+
+  const table=modal.querySelector('.compare-table');
+  table.querySelector('thead tr').innerHTML='<th>Specification</th>'+selected.map(c=>'<th><strong>'+esc(c.name)+'</strong><button class="remove-compare" data-remove-compare="'+esc(c.id)+'" type="button">Remove</button></th>').join('');
+  const rows=[
+    ['Price',...selected.map(c=>c.price)],
+    ['Year',...selected.map(c=>c.year)],
+    ['Body type',...selected.map(c=>c.type)],
+    ['Fuel',...selected.map(c=>c.fuel)],
+    ['Mileage',...selected.map(c=>c.mileage)],
+    ['Transmission',...selected.map(c=>c.transmission||'Automatic')],
+    ['Location',...selected.map(c=>c.location)],
+    ['Seller',...selected.map(c=>c.seller_name||'—')]
+  ];
+  table.querySelector('tbody').innerHTML=rows.map(row=>'<tr>'+row.map((value,i)=>'<'+(i===0?'th':'td')+'>'+esc(value)+'</'+(i===0?'th':'td')+'>').join('')+'</tr>').join('');
+  table.querySelectorAll('[data-remove-compare]').forEach(button=>button.onclick=()=>{
+    compare.delete(button.dataset.removeCompare);
+    render();
+    updateCompareBar();
+    if(compare.size<2) modal.classList.remove('open');
+    else openComparePanel();
+  });
+  modal.classList.add('open');
+}
 function resetMarketplace(){
   activeFilter='all';
   query='';
