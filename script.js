@@ -181,7 +181,9 @@ function openComparePanel(){
   }
 
   const table=modal.querySelector('.compare-table');
-  table.querySelector('thead tr').innerHTML='<th>Specification</th>'+selected.map(c=>'<th><strong>'+esc(c.name)+'</strong><button class="remove-compare" data-remove-compare="'+esc(c.id)+'" type="button">Remove</button></th>').join('');
+  table.querySelector('thead tr').innerHTML='<th>Specification</th>'+selected.map(c=>'<th><a class="compare-car-link" href="car.html?id='+encodeURIComponent(c.id)+'" aria-label="View '+esc(c.name)+' listing">'+
+    (c.image?'<img src="'+esc(c.image)+'" alt="" loading="lazy" referrerpolicy="no-referrer">':'')+
+    '<strong>'+esc(c.name)+'</strong></a><button class="remove-compare" data-remove-compare="'+esc(c.id)+'" type="button">Remove</button></th>').join('');
   const rows=[
     ['Price',...selected.map(c=>c.price)],
     ['Year',...selected.map(c=>c.year)],
