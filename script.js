@@ -294,26 +294,27 @@ function renderAiReply(data){
       matches.map(item=>{
         const car=cloudCars.find(c=>String(c.id)===String(item.id));
         if(!car) return '';
-        return '<button type="button" class="ai-recommendation" data-ai-car="'+esc(car.id)+'">'+
-          '<strong>'+esc(car.name)+'</strong>'+
-          '<span>'+esc(car.price)+' · '+esc(car.location)+'</span>'+
-          '<small>'+esc(item.reason||'Matches your preferences')+'</small>'+
-        '</button>';
+        return '<a class="ai-recommendation" href="car.html?id='+encodeURIComponent(car.id)+'" aria-label="View '+esc(car.name)+' listing">'+
+          '<div class="ai-recommendation-image">'+
+            (car.image?'<img src="'+esc(car.image)+'" alt="" loading="lazy" referrerpolicy="no-referrer" data-fallback="'+esc(imageFallbackFor(car.name))+'">':'<span aria-hidden="true">◇</span>')+
+          '</div>'+
+          '<div class="ai-recommendation-copy">'+
+            '<strong>'+esc(car.name)+'</strong>'+
+            '<span>'+esc(car.price)+' · '+esc(car.location)+'</span>'+
+            '<small>'+esc(item.reason||'Matches your preferences')+'</small>'+
+          '</div>'+
+          '<span class="ai-recommendation-arrow" aria-hidden="true">↗</span>'+
+        '</a>';
       }).join('')+'</div>':'');
   reply.appendChild(block);
   reply.scrollTop=reply.scrollHeight;
-  reply.querySelectorAll('[data-ai-car]').forEach(button=>{
-    button.onclick=()=>{
-      const id=button.dataset.aiCar;
-      const card=document.querySelector('.listing[data-id="'+CSS.escape(id)+'"]');
-      if(!card){
-        showToast('That car is not currently visible in the marketplace');
-        return;
+  reply.querySelectorAll('.ai-recommendation img[data-fallback]').forEach(img=>{
+    img.addEventListener('error',()=>{
+      const fallback=img.dataset.fallback||'';
+      if(fallback && img.src!==fallback){
+        img.src=fallback;
       }
-      card.scrollIntoView({behavior:'smooth',block:'center'});
-      card.classList.add('ai-highlight');
-      setTimeout(()=>card.classList.remove('ai-highlight'),1800);
-    };
+    });
   });
 }
 
@@ -386,14 +387,6 @@ document.getElementById('aiInput').addEventListener('keydown',event=>{
     event.preventDefault();
     document.getElementById('aiBtn').click();
   }
-});
-
-document.querySelectorAll('[data-ai-suggestion]').forEach(button=>{
-  button.onclick=()=>{
-    const input=document.getElementById('aiInput');
-    input.value=button.dataset.aiSuggestion||'';
-    input.focus();
-  };
 });
 
 if(mobileMenuBtn){
