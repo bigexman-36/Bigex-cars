@@ -41,7 +41,16 @@ Deno.serve(async (req) => {
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
 
   try {
-    const body = await req.json();
+    const contentType = req.headers.get("content-type") || "";
+    let body: any = {};
+
+    if (contentType.includes("application/json")) {
+      body = await req.json();
+    } else {
+      const rawBody = (await req.text()).trim();
+      body = rawBody ? { message: rawBody } : {};
+    }
+
     const message = String(body?.message || "").trim();
     const history = Array.isArray(body?.history) ? body.history.slice(-10) : [];
     const cars = Array.isArray(body?.cars) ? body.cars : [];
@@ -94,7 +103,15 @@ Deno.serve(async (req) => {
       })
     });
 
-    const raw = await openaiResponse.json();
+    const rawText = await openaiResponse.text();
+    let raw: any;
+    try {
+      raw = JSON.parse(rawText);
+    } catch {
+      console.error("OpenAI returned non-JSON", rawText.slice(0, 1000));
+      return json({ error: "Bigex Intelligence received an invalid response from OpenAI." }, 502);
+    }
+
     if (!openaiResponse.ok) {
       console.error("OpenAI error", raw);
       return json({ error: "Bigex Intelligence could not respond right now." }, 502);
@@ -104,7 +121,14 @@ Deno.serve(async (req) => {
       item.content?.map((part: any) => part.text || "") || []
     ).join("") || "";
 
-    const parsed = JSON.parse(outputText);
+    let parsed: any;
+    try {
+      parsed = JSON.parse(outputText);
+    } catch {
+      console.error("Bigex Intelligence returned invalid JSON", outputText.slice(0, 1000));
+      return json({ error: "Bigex Intelligence returned an invalid response." }, 502);
+    }
+
     const allowed = new Set(inventory.map(car => car.id));
 
     const recommendations = Array.isArray(parsed.recommendations)
