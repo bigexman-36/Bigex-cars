@@ -287,7 +287,9 @@ function renderAiReply(data){
   const reply=document.getElementById('aiReply');
   const message=esc(data.message||'');
   const matches=Array.isArray(data.recommendations)?data.recommendations:[];
-  reply.innerHTML='<div class="ai-answer">'+message+'</div>'+
+  const block=document.createElement('div');
+  block.className='ai-turn';
+  block.innerHTML='<div class="ai-bubble ai-bubble-assistant">'+message+'</div>'+
     (matches.length?'<div class="ai-recommendations">'+
       matches.map(item=>{
         const car=cloudCars.find(c=>String(c.id)===String(item.id));
@@ -298,6 +300,8 @@ function renderAiReply(data){
           '<small>'+esc(item.reason||'Matches your preferences')+'</small>'+
         '</button>';
       }).join('')+'</div>':'');
+  reply.appendChild(block);
+  reply.scrollTop=reply.scrollHeight;
   reply.querySelectorAll('[data-ai-car]').forEach(button=>{
     button.onclick=()=>{
       const id=button.dataset.aiCar;
@@ -350,10 +354,19 @@ document.getElementById('aiBtn').onclick=async()=>{
   const button=document.getElementById('aiBtn');
   button.disabled=true;
   input.disabled=true;
-  reply.innerHTML='<div class="ai-answer ai-thinking">Thinking through your requirements…</div>';
+  const userBubble=document.createElement('div');
+  userBubble.className='ai-turn ai-turn-user';
+  userBubble.innerHTML='<div class="ai-bubble ai-bubble-user">'+esc(userMessage)+'</div>';
+  reply.appendChild(userBubble);
+  const thinking=document.createElement('div');
+  thinking.className='ai-turn ai-thinking-turn';
+  thinking.innerHTML='<div class="ai-bubble ai-bubble-assistant ai-thinking">Thinking through your requirements<span class="ai-dots"><i></i><i></i><i></i></span></div>';
+  reply.appendChild(thinking);
+  reply.scrollTop=reply.scrollHeight;
 
   try{
     const data=await askBigexAI(userMessage);
+    thinking.remove();
     aiHistory.push({role:'user',content:userMessage});
     aiHistory.push({role:'assistant',content:data.message||''});
     renderAiReply(data);
@@ -373,6 +386,14 @@ document.getElementById('aiInput').addEventListener('keydown',event=>{
     event.preventDefault();
     document.getElementById('aiBtn').click();
   }
+});
+
+document.querySelectorAll('[data-ai-suggestion]').forEach(button=>{
+  button.onclick=()=>{
+    const input=document.getElementById('aiInput');
+    input.value=button.dataset.aiSuggestion||'';
+    input.focus();
+  };
 });
 
 if(mobileMenuBtn){
