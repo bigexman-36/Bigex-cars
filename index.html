@@ -82,9 +82,27 @@
       <div class="car-grid" id="carGrid" aria-live="polite"></div>
     </section>
 
-    <section class="ai-panel container">
-      <div><p class="eyebrow">BIGEX INTELLIGENCE</p><h2>Tell us what you want.<br /><span>We'll narrow it down.</span></h2><p>Try: “A reliable SUV under ₦30m for Lagos.”</p></div>
-      <div class="ai-chat"><div class="ai-message">Hi. What kind of car are you looking for?</div><div class="ai-input"><input id="aiInput" aria-label="Describe your ideal car" placeholder="Describe your ideal car..." /><button id="aiBtn" type="button" aria-label="Find matching cars">→</button></div><small id="aiReply" aria-live="polite"></small></div>
+    <section class="ai-panel container" id="bigexIntelligence">
+      <div class="ai-intro">
+        <p class="eyebrow"><span class="ai-status-dot"></span> BIGEX INTELLIGENCE</p>
+        <h2>Tell us what you want.<br /><span>We'll narrow it down.</span></h2>
+        <p>Describe your budget, lifestyle, preferred body type, fuel concerns or anything else that matters. Bigex Intelligence will work from the cars currently available.</p>
+        <div class="ai-suggestions" aria-label="Suggested questions">
+          <button type="button" data-ai-suggestion="I need an SUV for a family of 5">Family SUV</button>
+          <button type="button" data-ai-suggestion="Show me something under ₦30m">Under ₦30m</button>
+          <button type="button" data-ai-suggestion="I want something sporty">Sporty</button>
+        </div>
+      </div>
+      <div class="ai-chat">
+        <div class="ai-chat-window" id="aiReply" aria-live="polite">
+          <div class="ai-bubble ai-bubble-assistant">Hi. What kind of car are you looking for?</div>
+        </div>
+        <div class="ai-input">
+          <input id="aiInput" aria-label="Describe your ideal car" autocomplete="off" placeholder="Describe your ideal car..." />
+          <button id="aiBtn" type="button" aria-label="Send message">→</button>
+        </div>
+        <small class="ai-hint">Bigex Intelligence uses the current marketplace inventory.</small>
+      </div>
     </section>
 
     <section class="compare-section container" id="compare">
