@@ -9,15 +9,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style-v3.css" />
 </head>
 <body>
   <div class="noise"></div>
   <header class="nav container">
-    <a class="brand" href="#"><span>BIGEX</span><b>CARS</b></a>
+    <a class="brand" href="#"><span>BIGEX</span> <b>CARS</b></a>
     <nav aria-label="Primary navigation">
-      <a href="#explore">Explore</a>
+      <a href="#">Home</a>
+      <a href="#explore">Browse Cars</a>
+      <a href="#sell">Sell Car</a>
+      <a href="#bigexIntelligence">AI Assistant</a>
       <a href="#compare">Compare</a>
-      <a href="#sell">Sell</a>
     </nav>
     <div class="nav-actions">
       <a class="ghost-btn" id="loginBtn" href="login.html">Sign in</a>
@@ -25,18 +28,18 @@
     </div>
   </header>
   <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
-    <a href="#explore">Explore</a><a href="#compare">Compare</a><a href="#sell">Sell</a><a href="login.html">Account</a>
+    <a href="#">Home</a><a href="#explore">Browse Cars</a><a href="#sell">Sell Car</a><a href="#bigexIntelligence">AI Assistant</a><a href="#compare">Compare</a><a href="login.html">Account</a>
   </div>
 
   <main>
     <section class="hero container">
       <div class="hero-copy">
         <p class="eyebrow"><span class="pulse"></span> THE NEXT-GEN CAR MARKETPLACE</p>
-        <h1>Find a car that feels <em>ahead.</em></h1>
-        <p class="hero-text">Discover, compare and shortlist cars without the usual marketplace clutter.</p>
+        <h1>Find Your Next Ride with <em>Bigex Cars</em></h1>
+        <p class="hero-text">Discover, compare and buy the perfect car — from trusted sellers, with real images, detailed listings and smart recommendations.</p>
         <div class="search-box" role="search">
           <span class="search-icon" aria-hidden="true">⌕</span>
-          <input id="heroSearch" type="search" placeholder="Search BMW, Lexus, Toyota..." aria-label="Search cars" />
+          <input id="heroSearch" type="search" placeholder="Search by make, model, or keyword..." aria-label="Search cars" />
           <button id="searchBtn" type="button">Search</button>
         </div>
         <div class="quick-tags" aria-label="Popular searches">
@@ -64,10 +67,24 @@
       <div><strong>01</strong><span>Discover</span></div><div><strong>02</strong><span>Compare</span></div><div><strong>03</strong><span>Connect</span></div><div><strong>∞</strong><span>Drive</span></div>
     </section>
 
+    <section class="category-strip container" aria-label="Browse by category">
+      <div class="section-head"><div><p class="eyebrow">FIND YOUR TYPE</p><h2>Browse by Category</h2></div><button class="text-btn" type="button" onclick="document.getElementById('explore').scrollIntoView({behavior:'smooth'})">View all categories →</button></div>
+      <div class="category-grid">
+        <a class="category-card" href="#explore"><span class="category-icon">🚙</span>SUVs</a>
+        <a class="category-card" href="#explore"><span class="category-icon">🚘</span>Sedans</a>
+        <a class="category-card" href="#explore"><span class="category-icon">🛻</span>Trucks</a>
+        <a class="category-card" href="#explore"><span class="category-icon">🏎</span>Sports</a>
+        <a class="category-card" href="#explore"><span class="category-icon">🚗</span>Hatchbacks</a>
+        <a class="category-card" href="#explore"><span class="category-icon">♛</span>Luxury</a>
+        <a class="category-card" href="#explore"><span class="category-icon">⚡</span>Electric</a>
+        <a class="category-card" href="#explore"><span class="category-icon">🚐</span>Wagons</a>
+      </div>
+    </section>
+
     <section class="section container" id="explore">
       <div class="section-head marketplace-head">
-        <div><p class="eyebrow">CURATED FOR YOU</p><h2>Trending machines</h2><p class="section-subtitle" id="resultsMeta">Loading the marketplace…</p></div>
-        <button class="text-btn" id="viewAll" type="button">View all ↗</button>
+        <div><p class="eyebrow">CURATED FOR YOU</p><h2>Featured Cars</h2><p class="section-subtitle" id="resultsMeta">Loading the marketplace…</p></div>
+        <button class="text-btn" id="viewAll" type="button">View all cars →</button>
       </div>
       <div class="marketplace-toolbar">
         <div class="filters" aria-label="Filter by body type">
@@ -84,9 +101,9 @@
 
     <section class="ai-panel container" id="bigexIntelligence">
       <div class="ai-intro">
-        <p class="eyebrow"><span class="ai-status-dot"></span> BIGEX INTELLIGENCE</p>
+        <p class="eyebrow"><span class="ai-status-dot"></span> BIGEX AI</p>
         <h2>Tell us what you want.<br /><span>We'll narrow it down.</span></h2>
-        <p>Describe your budget, lifestyle, preferred body type, fuel concerns or anything else that matters. Bigex Intelligence will work from the cars currently available.</p>
+        <p>Tell Bigex your budget, family size, lifestyle, preferred body type or anything else that matters. It will recommend cars from the current marketplace.</p>
       </div>
       <div class="ai-chat">
         <div class="ai-chat-window" id="aiReply" aria-live="polite">
@@ -96,7 +113,7 @@
           <input id="aiInput" aria-label="Describe your ideal car" autocomplete="off" placeholder="Describe your ideal car..." />
           <button id="aiBtn" type="button" aria-label="Send message">→</button>
         </div>
-        <small class="ai-hint">Bigex Intelligence uses the current marketplace inventory.</small>
+        <small class="ai-hint">Recommendations are based on the current marketplace inventory.</small>
       </div>
     </section>
 
@@ -105,10 +122,10 @@
       <div class="compare-box"><div><span>01</span><h3>Select cars</h3><p>Add up to four cars from the marketplace.</p></div><div><span>02</span><h3>See the difference</h3><p>Price, power, mileage and key specs in one view.</p></div><div><span>03</span><h3>Make your move</h3><p>Save a shortlist or connect with a seller.</p></div></div>
     </section>
 
-    <section class="sell container" id="sell"><div><p class="eyebrow">FOR SELLERS</p><h2>Put your car in front of serious buyers.</h2><p>List a vehicle, add its details and let Bigex Cars handle the discovery experience.</p></div><button class="primary-btn" id="sellBtn" type="button">List a car ↗</button></section>
+    <section class="sell container" id="sell"><div><p class="eyebrow">FOR SELLERS</p><h2>Put your car in front of serious buyers.</h2><p>List a vehicle, add its details and let Bigex Cars handle the discovery experience.</p></div><button class="primary-btn" id="sellBtn" type="button">List a car →</button></section>
   </main>
 
-  <footer class="footer container"><div class="brand"><span>BIGEX</span><b>CARS</b></div><p>Built for the next drive.</p><small>© 2026 Bigex Cars</small></footer>
+  <footer class="footer container"><div class="brand"><span>BIGEX</span> <b>CARS</b></div><p>Drive Your Dreams</p><small>© 2026 Bigex Cars. All rights reserved.</small></footer>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script type="module" src="script.js"></script>
 </body>
