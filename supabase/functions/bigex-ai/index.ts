@@ -96,7 +96,7 @@ Deno.serve(async (req) => {
         "Authorization": `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "gpt-5.6-luna",
+        model: "gpt-6-luna",
         input,
         text: { format: { type: "json_object" } },
         max_output_tokens: 700
@@ -114,7 +114,7 @@ Deno.serve(async (req) => {
 
     if (!openaiResponse.ok) {
       console.error("OpenAI error", raw);
-      return json({ error: "Bigex Intelligence could not respond right now." }, 502);
+      const upstreamMessage = String(raw?.error?.message || "").slice(0, 220);\n      return json({ error: upstreamMessage ? `Bigex AI provider error: ${upstreamMessage}` : "Bigex AI could not respond right now." }, 502);
     }
 
     const outputText = raw.output_text || raw.output?.flatMap((item: any) =>
