@@ -1,31 +1,35 @@
 # Bigex Cars
 
-A futuristic, mobile-first car marketplace prototype.
+A futuristic, mobile-first car marketplace for discovering, comparing and selling vehicles.
 
 ## Current build
 - Cinematic dark/glass marketplace UI
-- Search and category filters
-- Persistent local favorites
-- Compare selection (up to 4 cars)
-- Seller listing form with pending/approved workflow
-- Administrator control center for local listing moderation
-- Supabase schema and browser configuration prepared for cloud integration
-- Admin role logic prepared for Supabase-backed authentication
+- Supabase-backed approved listings
+- Search across vehicle name, type, fuel, location, transmission and seller
+- Quick category filters plus advanced price/year/location/fuel/transmission filters
+- Persistent local shortlist/favorites
+- Compare up to 4 vehicles with direct listing links
+- Dedicated vehicle detail pages with seller contact actions
+- Seller listing form with image preview and pending/approved moderation workflow
+- Supabase-backed authentication and administrator control center
+- Server-side Bigex AI car matching through a Supabase Edge Function
+- Responsive mobile navigation and marketplace layouts
+- Loading, empty, retry and broken-image states
 
-## Current limitation
-The GitHub Pages build is still a static frontend. Seller listings, favorites and moderation currently use browser localStorage, so they are not shared between different devices/users.
+## Architecture
+The frontend is deployed as a static site through GitHub Pages. Supabase provides authentication, the listings database, row-level security and the server-side Bigex AI function.
 
-## Supabase next step
-Create a Supabase project, run `supabase/schema.sql`, then provide the public project URL and anon key through `window.BIGEX_SUPABASE_URL` and `window.BIGEX_SUPABASE_ANON_KEY`. Do not expose a service-role key in the frontend.
+The browser only uses the public Supabase client key. The OpenAI API key belongs in the Supabase Edge Function environment and must never be committed to the repository.
+
+## Database setup
+Run `supabase/schema.sql` in the Supabase SQL editor. It includes the listing fields used by the current seller workflow, including transmission and seller contact information.
 
 ## Roadmap
-1. Connect marketplace listings to Supabase
-2. Replace demo sign-in with Supabase Auth
-3. Persist favorites per account
-4. Add real seller profiles and image storage
-5. Add cloud-wide admin moderation
-6. Add buyer/seller messaging
-7. Add real comparison details and vehicle pages
-8. Connect AI matching to a server-side AI endpoint
-9. Add location-aware discovery
-10. Production hardening and deployment
+1. Cloud-backed favorites per account
+2. Real seller profiles and image storage
+3. Buyer/seller messaging
+4. Saved searches and alerts
+5. Location-aware discovery
+6. Production security and abuse hardening
+7. Better vehicle image galleries and listing analytics
+8. Marketplace trust features such as reporting and verification

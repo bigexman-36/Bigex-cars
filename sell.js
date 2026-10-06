@@ -63,6 +63,26 @@ function updateImagePreview() {
   img.src = url;
 }
 
+function validateSellerData(data) {
+  const year = Number(data.year);
+  const price = Number(data.price);
+  const mileage = Number(data.mileage);
+  if (!Number.isInteger(year) || year < 1950 || year > new Date().getFullYear() + 1) return 'Enter a valid vehicle year.';
+  if (!Number.isFinite(price) || price <= 0) return 'Enter a valid asking price.';
+  if (!Number.isInteger(mileage) || mileage < 0) return 'Enter a valid mileage.';
+  if (data.phone.trim().replace(/[^\d+]/g, '').length < 7) return 'Enter a valid phone number.';
+  if (data.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email.trim())) return 'Enter a valid email address.';
+  if (data.image_url?.trim()) {
+    try {
+      const url = new URL(data.image_url.trim());
+      if (!['http:', 'https:'].includes(url.protocol)) return 'Image URL must start with http:// or https://.';
+    } catch {
+      return 'Enter a valid image URL or leave it empty.';
+    }
+  }
+  return '';
+}
+
 descriptionInput.addEventListener('input', () => {
   document.getElementById('charCount').textContent = descriptionInput.value.length;
 });
@@ -93,6 +113,12 @@ form.addEventListener('submit', async (e) => {
 
     await ensureProfile(user);
     const data = Object.fromEntries(new FormData(form).entries());
+    const validationError = validateSellerData(data);
+    if (validationError) {
+      show(validationError);
+      setBusy(false);
+      return;
+    }
 
     const { error } = await supabase.from('listings').insert({
       seller_id: user.id,
@@ -120,6 +146,7 @@ form.addEventListener('submit', async (e) => {
     document.getElementById('pricePreview').textContent = 'Enter your asking price';
     updateImagePreview();
     updateSummary();
+    setBusy(false);
 
     setTimeout(() => location.href = 'index.html#explore', 1800);
   } catch (error) {

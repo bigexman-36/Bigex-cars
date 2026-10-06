@@ -21,9 +21,18 @@ create table if not exists public.listings (
   location text not null,
   description text default '',
   image_url text default '',
+  transmission text not null default 'Automatic',
+  seller_name text default '',
+  phone text default '',
+  email text default '',
   status text not null default 'pending' check (status in ('pending','approved','rejected','sold')),
   created_at timestamptz not null default now()
 );
+
+alter table public.listings add column if not exists transmission text not null default 'Automatic';
+alter table public.listings add column if not exists seller_name text default '';
+alter table public.listings add column if not exists phone text default '';
+alter table public.listings add column if not exists email text default '';
 
 create table if not exists public.favorites (
   user_id uuid references public.profiles(id) on delete cascade,
@@ -36,7 +45,6 @@ alter table public.profiles enable row level security;
 alter table public.listings enable row level security;
 alter table public.favorites enable row level security;
 
--- Helper: admin status is decided server-side from the profile row, not localStorage.
 create or replace function public.is_admin()
 returns boolean
 language sql
@@ -92,8 +100,6 @@ to authenticated
 using (user_id = auth.uid() or public.is_admin())
 with check (user_id = auth.uid() or public.is_admin());
 
--- IMPORTANT: set the designated admin role only after the Google account has authenticated.
--- Replace the email below only if the administrator account changes.
 update public.profiles
 set role = 'admin'
 where lower(email) = lower('igetobiloluwa36@gmail.com');
