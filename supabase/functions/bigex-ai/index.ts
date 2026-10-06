@@ -114,7 +114,7 @@ Deno.serve(async (req) => {
 
     if (!openaiResponse.ok) {
       console.error("OpenAI error", raw);
-      const upstreamMessage = String(raw?.error?.message || "").slice(0, 220);\n      console.error("OpenAI error", raw);\n      return json({ error: upstreamMessage ? `Bigex AI provider error: ${upstreamMessage}` : "Bigex AI could not respond right now." }, 502);
+      const upstreamMessage = String(raw?.error?.message || "").slice(0, 220);\n      return json({ error: upstreamMessage ? `Bigex AI provider error: ${upstreamMessage}` : "Bigex AI could not respond right now." }, 502);
     }
 
     const outputText = raw.output_text || raw.output?.flatMap((item: any) =>
