@@ -1,43 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Bigex AI — conversational car recommendations from the Bigex Cars marketplace." />
-  <title>Bigex AI — Bigex Cars</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="style-v3.css" />
-</head>
-<body>
-  <div class="noise"></div>
-  <header class="nav container">
-    <a class="brand" href="index.html"><span>BIGEX</span> <b>CARS</b></a>
-    <nav aria-label="Primary navigation">
-      <a href="index.html">Home</a><a href="explore.html">Explore</a><a href="compare.html">Compare</a><a class="active" href="ai.html">AI</a><a href="sell.html">Sell</a>
-    </nav>
-    <div class="nav-actions"><a class="ghost-btn" href="login.html">Sign in</a><button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="Open menu">☰</button></div>
-  </header>
-  <div class="mobile-menu" id="mobileMenu"><a href="index.html">Home</a><a href="explore.html">Explore</a><a href="compare.html">Compare</a><a href="ai.html">AI</a><a href="sell.html">Sell</a><a href="login.html">Account</a></div>
-
-  <main class="container dedicated-page">
-    <section class="dedicated-hero">
-      <p class="eyebrow"><span class="ai-status-dot"></span> BIGEX AI</p>
-      <h1>Tell us what you want.<br /><em>We'll narrow it down.</em></h1>
-      <p>Describe your budget, family size, lifestyle, preferred body type, or anything else that matters. Bigex AI recommends vehicles from the current marketplace.</p>
-    </section>
-    <section class="ai-page-shell">
-      <div class="ai-chat ai-chat-large">
-        <div class="ai-chat-window" id="aiReply" aria-live="polite"><div class="ai-bubble ai-bubble-assistant">Hi. Tell me what kind of car you're looking for.</div></div>
-        <div class="ai-input"><input id="aiInput" aria-label="Describe your ideal car" autocomplete="off" placeholder="e.g. I need a family SUV under ₦30m..." /><button id="aiBtn" type="button" aria-label="Send message">→</button></div>
-        <small class="ai-hint">Recommendations are based on approved Bigex Cars inventory.</small>
-      </div>
-      <aside class="ai-page-side"><p class="eyebrow">TRY SAYING</p><button data-prompt="I need a reliable family SUV under ₦30m">Family SUV under ₦30m</button><button data-prompt="I want something sporty but comfortable for daily driving">Sporty daily driver</button><button data-prompt="Find me a luxury car that feels premium">Luxury car</button><button data-prompt="I want an economical car for city driving">Economical city car</button></aside>
-    </section>
-  </main>
-  <footer class="footer container"><div class="brand"><span>BIGEX</span> <b>CARS</b></div><p>Drive Your Dreams</p><small>© 2026 Bigex Cars. All rights reserved.</small></footer>
-  <script type="module" src="ai-page.js"></script>
-</body>
-</html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Bigex AI — conversational car recommendations from the Bigex Cars marketplace."><title>Bigex AI — Bigex Cars</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="style-v3.css"><link rel="stylesheet" href="navigation-pages.css"></head>
+<body><div class="noise"></div><header class="nav container"><a class="brand" href="index.html"><span>BIGEX</span> <b>CARS</b></a><nav aria-label="Primary navigation"><a href="index.html">Home</a><a href="explore.html">Explore</a><a href="compare.html">Compare</a><a class="active" href="ai.html">AI</a><a href="sell.html">Sell</a></nav><div class="nav-actions"><a class="ghost-btn" href="login.html">Sign in</a><button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="Open menu">☰</button></div></header><div class="mobile-menu" id="mobileMenu"><a href="index.html">Home</a><a href="explore.html">Explore</a><a href="compare.html">Compare</a><a href="ai.html">AI</a><a href="sell.html">Sell</a><a href="login.html">Account</a></div>
+<main class="container dedicated-page"><section class="dedicated-hero"><p class="eyebrow"><span class="ai-status-dot"></span> BIGEX AI</p><h1>Tell us what you want.<br><em>We'll narrow it down.</em></h1><p>Describe your budget, family size, lifestyle, preferred body type, or anything else that matters. Bigex AI recommends vehicles from the current marketplace.</p></section><section class="ai-page-shell"><div class="ai-chat ai-chat-large"><div class="ai-chat-window" id="aiReply" aria-live="polite"><div class="ai-bubble ai-bubble-assistant">Hi. Tell me what kind of car you're looking for.</div></div><div class="ai-input"><input id="aiInput" aria-label="Describe your ideal car" autocomplete="off" placeholder="e.g. I need a family SUV under ₦30m..."><button id="aiBtn" type="button" aria-label="Send message">→</button></div><small class="ai-hint">Recommendations are based on approved Bigex Cars inventory.</small></div><aside class="ai-page-side"><p class="eyebrow">TRY SAYING</p><button data-prompt="I need a reliable family SUV under ₦30m">Family SUV under ₦30m</button><button data-prompt="I want something sporty but comfortable for daily driving">Sporty daily driver</button><button data-prompt="Find me a luxury car that feels premium">Luxury car</button><button data-prompt="I want an economical car for city driving">Economical city car</button></aside></section></main><footer class="footer container"><div class="brand"><span>BIGEX</span> <b>CARS</b></div><p>Drive Your Dreams</p><small>© 2026 Bigex Cars. All rights reserved.</small></footer><script type="module" src="ai-page.js"></script></body></html>
